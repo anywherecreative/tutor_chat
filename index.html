@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Products</title>
+		<script src='http://code.jquery.com/jquery-1.11.1.min.js'></script>
+		<link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' />
+		<script src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+		<script>
+			$(document).ready(function() {
+				//load all the products
+				var bpos = 12; //bootstrap pos
+				$.get('http://lessons.pyrodesign.ca/products/getProducts.php',function(items) {
+					items = JSON.parse(items);
+					if(items.status == "ERROR") {
+						alert(items.message);
+						return false;
+					}
+					for(var pos in items.products) {
+						if(bpos == 12) {
+							$('.items').append("<div class='row-fluid'></div>");
+							bpos = 0;
+						}
+						$('.items .row-fluid:last-child').append("<div class='col-md-4'><h2>" + items.products[pos].name + "</h2><p>" + items.products[pos].description + "</p><p><strong>Price:</strong>" + items.products[pos].price + "</p></div>");
+						bpos+=4;
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class='container items'>
+		</div>
+	</body>
+</html>
